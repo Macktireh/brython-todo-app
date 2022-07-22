@@ -86,7 +86,7 @@ def editing(task):
         value=task.get('name'), 
         id=f"input_edit-{task.get('id')}",
         autofocus=True
-    )
+    ).bind('keydown', handleUpdate)
     btn_edit = html.BUTTON('Valider', id=f"{task.get('id')}").bind('click', handleUpdate)
     div_edit = html.DIV(Class="editing")
     div_edit <= input_edit + btn_edit
@@ -104,14 +104,19 @@ def handleIsEditing(e):
             showTasks(tasks)
 
 def handleUpdate(e):
-    id = e.target.id
-    value = document[f"input_edit-{id}"].value
-    for task in tasks:
-        if task.get('id') == id:
-            task['name'] = value
-            task['isUpdateing'] = False
-            listContainer.html = ""
-            showTasks(tasks)
+    def update():
+        id = e.target.id.split('-')[-1]
+        value = document[f"input_edit-{id}"].value
+        for task in tasks:
+            if task.get('id') == id:
+                task['name'] = value
+                task['isUpdateing'] = False
+                listContainer.html = ""
+                showTasks(tasks)
+    if e.type == 'keydown' and e.key == 'Enter':
+        update()
+    if e.type == 'click':
+        update()
 
 def handleDelete(e):
     if window.confirm("Vous voulez supprimer !"):
