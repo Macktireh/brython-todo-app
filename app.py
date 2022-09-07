@@ -119,11 +119,11 @@ def handleUpdate(e):
         update()
 
 def handleDelete(e):
-    if window.confirm("Vous voulez supprimer !"):
-        global tasks
-        tasks = list(filter(lambda task: task.get('id') != e.target.id, tasks))
-        document[f'task-{e.target.id}'].remove()
-        h3.text = f"Tâche à faire : {count_tasks_not_completed()}"
+#     if window.confirm("Vous voulez supprimer !"):
+    global tasks
+    tasks = list(filter(lambda task: task.get('id') != e.target.id, tasks))
+    document[f'task-{e.target.id}'].remove()
+    h3.text = f"Tâche à faire : {count_tasks_not_completed()}"
 
 
 root = document['root']
